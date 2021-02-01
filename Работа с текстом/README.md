@@ -8,4 +8,4 @@
 
 
 # Используемые библиотеки
-Pandas, NLTK, re, pymystem3
+Pandas, numpy, seaborn, matplotlib, sklearn, lightgbm
