@@ -9,4 +9,4 @@
 
 # Используемые библиотеки
 
-Pandas, numpy, matplotlib, sklearn
+Pandas, numpy, matplotlib, sklearn, lightgbm
