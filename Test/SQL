@@ -1,0 +1,29 @@
+SELECT 
+customer_id, 
+ROUND(AVG(contract_price)) AS mean_contract_price,
+SUM(is_subcontractor) AS unique_contractors,
+COUNT(contract_id) AS number_of_contracts,
+ROUND(SUM(more_than_a_million + 0.0) / COUNT(more_than_a_million), 2)
+AS more_than_a_million
+
+FROM 
+(
+	SELECT contracts.contract_id, 
+	contracts.sign_date,
+	contracts.customer_id,
+	contracts.contract_price,
+	contract_supplier_link.supplier_id,
+	CASE WHEN contract_supplier_link.is_subcontractor = TRUE
+	THEN 0 ELSE 1 END AS is_subcontractor,
+	
+	CASE WHEN contracts.contract_price >= 1000000
+	THEN 1 ELSE 0 END AS more_than_a_million
+	
+	FROM contracts LEFT OUTER JOIN contract_supplier_link
+	ON contracts.contract_id = contract_supplier_link.contract_id
+	WHERE contracts.sign_date BETWEEN '2020-01-01' AND '2021-12-31'
+
+) AS b
+
+GROUP BY customer_id
+ORDER BY customer_id
